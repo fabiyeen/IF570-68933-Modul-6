@@ -63,6 +63,7 @@ fun ItemEntryScreen(
     canNavigateBack: Boolean = true,
     viewModel: ItemEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             InventoryTopAppBar(
@@ -90,15 +91,10 @@ fun ItemEntryScreen(
 
 @Composable
 fun ItemEntryBody(
-    itemUiState = viewModel.itemUiState,
-    onItemValueChange = viewModel::updateUiState,
-    onSaveClick = {
-        coroutineScope.launch {
-            viewModel.saveItem()
-            navigateBack()
-        }
-    },
-    modifier = modifier.padding(innerPadding)
+    itemUiState: ItemUiState,
+    onItemValueChange: (ItemDetails) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
@@ -193,5 +189,3 @@ private fun ItemEntryScreenPreview() {
         ), onItemValueChange = {}, onSaveClick = {})
     }
 }
-
-val coroutineScope = rememberCoroutineScope()
