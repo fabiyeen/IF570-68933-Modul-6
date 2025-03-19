@@ -102,4 +102,7 @@ fun Item.toItemDetails(): ItemDetails = ItemDetails(
 )
 
 suspend fun saveItem() {
+    if (validateInput()) {
+        itemsRepository.insertItem(itemUiState.itemDetails.toItem())
+    }
 }

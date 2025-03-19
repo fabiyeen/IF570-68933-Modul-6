@@ -47,6 +47,8 @@ import com.example.inventory.ui.navigation.NavigationDestination
 import com.example.inventory.ui.theme.InventoryTheme
 import java.util.Currency
 import java.util.Locale
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 
 object ItemEntryDestination : NavigationDestination {
     override val route = "item_entry"
@@ -88,10 +90,15 @@ fun ItemEntryScreen(
 
 @Composable
 fun ItemEntryBody(
-    itemUiState: ItemUiState,
-    onItemValueChange: (ItemDetails) -> Unit,
-    onSaveClick: () -> Unit,
-    modifier: Modifier = Modifier
+    itemUiState = viewModel.itemUiState,
+    onItemValueChange = viewModel::updateUiState,
+    onSaveClick = {
+        coroutineScope.launch {
+            viewModel.saveItem()
+            navigateBack()
+        }
+    },
+    modifier = modifier.padding(innerPadding)
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
@@ -186,3 +193,5 @@ private fun ItemEntryScreenPreview() {
         ), onItemValueChange = {}, onSaveClick = {})
     }
 }
+
+val coroutineScope = rememberCoroutineScope()
