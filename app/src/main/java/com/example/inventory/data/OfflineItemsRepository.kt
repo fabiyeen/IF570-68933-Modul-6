@@ -16,4 +16,4 @@
 
 package com.example.inventory.data
 
-class OfflineItemsRepository : ItemsRepository
+class OfflineItemsRepository(private val itemDao: ItemDao) : ItemsRepository
