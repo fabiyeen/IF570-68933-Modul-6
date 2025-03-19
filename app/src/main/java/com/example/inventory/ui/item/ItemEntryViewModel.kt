@@ -100,3 +100,6 @@ fun Item.toItemDetails(): ItemDetails = ItemDetails(
     price = price.toString(),
     quantity = quantity.toString()
 )
+
+suspend fun saveItem() {
+}
